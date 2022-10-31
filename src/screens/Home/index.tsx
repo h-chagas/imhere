@@ -1,4 +1,5 @@
-import { Text, View, TextInput, TouchableOpacity, ScrollView, FlatList } from 'react-native';
+import React, {useState} from 'react';
+import { Text, View, TextInput, TouchableOpacity, FlatList, Alert } from 'react-native';
 import { Header } from '../../components/Header';
 import { Participant } from '../../components/Participant';
 import { styles } from './styles'
@@ -6,15 +7,34 @@ import { styles } from './styles'
 
 export function Home() {
 
-  const participants = ['Hugo', 'Milena', 'Jamie', 'Emily', 'nome1', 'nome2', 'nome3', 'nome4', 'nome5', 'nome6'];
+  const [participants, setParticipant] = useState<string[]>([]);  //type   this is an array of string    <string[]>
+  const [participantName, setParticipantName] = useState('');
+
+
 
     function handleParticipantAdd() {
-        console.log('i clicked on handleParticipantAdd button');
-        
+      if(participants.includes(participantName)) {
+        return Alert.alert('Participant already exist', 'This participant is already included in the list!')
+      }
+
+      setParticipant(prevState => [...prevState, participantName]); //new array with current content + new content
+      setParticipantName('');
     }
 
     function handleParticipantRemover(name: string) {
-      console.log(`i clicked to remove ${name}`);
+      
+      setParticipant(prevState => prevState.filter(participant => participant !== name))
+      
+      Alert.alert('Remove participant', `Are you sure you want to remove ${name}?`, [
+        {
+          text: 'Yes',
+          onPress: () => Alert.alert('Removed!')
+        },
+        {
+          text: 'No',
+          style: 'cancel'
+        },
+      ]);
     }
 
         return (
@@ -40,6 +60,9 @@ export function Home() {
                   style={styles.input}
                   placeholder='Participant name'
                   placeholderTextColor='#6b6b6b'
+                  // onChangeText={text => setParticipantName(text)}
+                  onChangeText={setParticipantName} //same thing above
+                  value={participantName}  //to clean input after add participant
                 />
 
                 <TouchableOpacity
@@ -61,7 +84,7 @@ export function Home() {
                 <Participant
                 key={item}
                 name={item}
-                onRemove={() => handleParticipantRemover('Rodrigo')} 
+                onRemove={() => handleParticipantRemover(item)} 
                 />
               )}
               showsVerticalScrollIndicator={false} 

@@ -9,6 +9,14 @@ export function Home() {
 
   const [participants, setParticipant] = useState<string[]>([]);  //type   this is an array of string    <string[]>
   const [participantName, setParticipantName] = useState('');
+  const [eventName, setEventName] = useState('Event name');
+  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const d = new Date();
+  let weekDay = weekday[d.getDay()];
+  let day = d.getDate();
+  let theMonth = month[d.getMonth()];
+  let year = d.getFullYear();
 
 
 
@@ -22,37 +30,38 @@ export function Home() {
     }
 
     function handleParticipantRemover(name: string) {
-      
-      setParticipant(prevState => prevState.filter(participant => participant !== name))
-      
       Alert.alert('Remove participant', `Are you sure you want to remove ${name}?`, [
         {
           text: 'Yes',
-          onPress: () => Alert.alert('Removed!')
+          onPress: () => setParticipant(prevState => prevState.filter(participant => participant !== name))
         },
         {
           text: 'No',
           style: 'cancel'
         },
       ]);
+      
+
     }
 
         return (
             <View style={styles.container}>
               <Header />
 
-              <Text 
+              <TextInput
               key='1'
               style={styles.eventName}
-              >
-                Event name
-              </Text>
+              placeholder='Type your event name...'
+              placeholderTextColor='#6b6b6b'
+              onChangeText={setEventName}
+              />
+              
       
               <Text
               key='2'
               style={styles.eventDate}
               >
-                Fri, 05th of October 2022
+                {weekDay}, {day} {theMonth} {year}
               </Text>
 
               <View style={styles.form}>
@@ -63,7 +72,7 @@ export function Home() {
                   // onChangeText={text => setParticipantName(text)}
                   onChangeText={setParticipantName} //same thing above
                   value={participantName}  //to clean input after add participant
-                />
+                  />
 
                 <TouchableOpacity
                 style={styles.submitBtn}

@@ -9,14 +9,14 @@ export function Home() {
 
   const [participants, setParticipant] = useState<string[]>([]);  //type   this is an array of string    <string[]>
   const [participantName, setParticipantName] = useState('');
-  const [eventName, setEventName] = useState('Event name');
-  const weekday = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-  const month = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-  const d = new Date();
-  let weekDay = weekday[d.getDay()];
-  let day = d.getDate();
-  let theMonth = month[d.getMonth()];
-  let year = d.getFullYear();
+  const [eventName, setEventName] = useState('');
+  const weekday: string[] = ["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
+  const month: string[] = ["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const d: Date = new Date();
+  let weekDay: string = weekday[d.getDay()];
+  let day: number = d.getDate();
+  let theMonth: string = month[d.getMonth()];
+  let year: number = d.getFullYear();
 
 
 
@@ -51,7 +51,7 @@ export function Home() {
               <TextInput
               key='1'
               style={styles.eventName}
-              placeholder='Type your event name...'
+              placeholder= 'Type your event name...'
               placeholderTextColor='#6b6b6b'
               onChangeText={setEventName}
               />
